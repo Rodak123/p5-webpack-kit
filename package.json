@@ -1,12 +1,20 @@
 {
   "name": "p5-webpack-kit",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "author": "Rodak",
+  "description": "Kit consisting of wrapper classes that help with using p5.js and webpack",
+  "author": "Radek Titěra",
+  "keywords": [
+    "p5.js",
+    "webpack"
+  ],
   "license": "MIT",
+  "main": "index.js",
+  "type": "module",
   "dependencies": {
     "p5": "^1.11.2"
   },
-  "type": "module"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Rodak123/p5-webpack-kit.git"
+  }
 }
