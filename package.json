@@ -1,0 +1,12 @@
+{
+  "name": "p5-webpack-kit",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "author": "Rodak",
+  "license": "MIT",
+  "dependencies": {
+    "p5": "^1.11.2"
+  },
+  "type": "module"
+}
