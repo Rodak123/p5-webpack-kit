@@ -37,3 +37,4 @@ export class Font {
      */
     get font(): p5.Font | null;
 }
+//# sourceMappingURL=font.d.ts.map

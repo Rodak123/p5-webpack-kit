@@ -23,3 +23,4 @@ export function validateType(value: any, exampleValue: any, valueName?: string |
  * @returns {any} Return value or defaultValue
  */
 export function validateTypeOrDefault(value: any, defaultValue: any, valueName?: string | null): any;
+//# sourceMappingURL=validation.d.ts.map

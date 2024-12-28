@@ -1,48 +1,47 @@
-import p5 from 'p5';
-import { Sketch } from './sketch.js';
-import { validateFilePath } from './validation.js';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Image = void 0;
+const p5_1 = __importDefault(require("p5"));
+const sketch_js_1 = require("./sketch.js");
+const validation_js_1 = require("./validation.js");
 /**
  * Easy to use image class that loads the desired image on preload
  */
-var Image = /** @class */ (function () {
+class Image {
     /**
      * @param {string} imagePath Path to the desired image inside the images/ folder
      */
-    function Image(imagePath) {
-        var _this = this;
-        this._imagePath = validateFilePath(imagePath, [], 'Image path');
+    constructor(imagePath) {
+        this._imagePath = (0, validation_js_1.validateFilePath)(imagePath, [], 'Image path');
         this._image = null;
-        if (Sketch.isAfterPreload) {
-            console.error("Image must be created before '".concat(Sketch.preloadEventName, "'."));
+        if (sketch_js_1.Sketch.isAfterPreload) {
+            console.error(`Image must be created before '${sketch_js_1.Sketch.preloadEventName}'.`);
         }
         else {
-            Sketch.addPreloadEvent(function () {
-                _this._loadImage();
+            sketch_js_1.Sketch.addPreloadEvent(() => {
+                this._loadImage();
             });
         }
     }
     /**
      * @returns {void}
      */
-    Image.prototype._loadImage = function () {
-        var _this = this;
-        var imagePath = "".concat(Sketch.resourcesPath, "/images/").concat(this._imagePath);
-        Sketch.p5.loadImage(imagePath, function (image) {
-            _this._image = image;
-        }, function (err) {
-            console.error("Failed to load image at '".concat(imagePath, "'.\n").concat(err));
+    _loadImage() {
+        const imagePath = `${sketch_js_1.Sketch.resourcesPath}/images/${this._imagePath}`;
+        sketch_js_1.Sketch.p5.loadImage(imagePath, (image) => {
+            this._image = image;
+        }, (err) => {
+            console.error(`Failed to load image at '${imagePath}'.\n${err}`);
         });
-    };
-    Object.defineProperty(Image.prototype, "image", {
-        /**
-         * @returns {p5.Image} Loaded p5.Image
-         */
-        get: function () {
-            return this._image;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return Image;
-}());
-export { Image };
+    }
+    /**
+     * @returns {p5.Image} Loaded p5.Image
+     */
+    get image() {
+        return this._image;
+    }
+}
+exports.Image = Image;

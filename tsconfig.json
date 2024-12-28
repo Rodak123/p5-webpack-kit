@@ -1,16 +1,24 @@
 {
     "compilerOptions": {
-        "target": "es5",
-        "declaration": true,
-        "allowJs": true,
-        "checkJs": true,
         "outDir": "./dist",
         "rootDir": "./src",
+        "declaration": true,
+        "declarationMap": true,
+        "emitDeclarationOnly": false,
+        "module": "commonjs",
+        "target": "es6",
+        "jsx": "react",
+        "strict": true,
         "esModuleInterop": true,
-        "moduleResolution": "node",
-        "module": "ESNext",
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true,
+        "checkJs": true
     },
     "include": [
         "src/**/*"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
     ]
 }

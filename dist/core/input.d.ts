@@ -181,3 +181,4 @@ export class Input {
      */
     bindEvents(p5: p5): void;
 }
+//# sourceMappingURL=input.d.ts.map

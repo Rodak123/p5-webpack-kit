@@ -27,7 +27,7 @@ export class ShaderLayer {
      * @constructor
      * @param {string} key
      */
-    constructor(key: string, context?: any);
+    constructor(key: string, context?: null);
     /**
      * ID of this shader layer
      * @type {string}
@@ -44,3 +44,4 @@ export class ShaderLayer {
      */
     isSameAs(other: ShaderLayer): boolean;
 }
+//# sourceMappingURL=shaderLayer.d.ts.map

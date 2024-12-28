@@ -55,3 +55,4 @@ export class DrawSettings {
      */
     get autoClearCanvas(): boolean;
 }
+//# sourceMappingURL=drawSettings.d.ts.map

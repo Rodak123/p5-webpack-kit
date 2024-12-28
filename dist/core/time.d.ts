@@ -88,3 +88,4 @@ export class Time {
      */
     static synchronizeMillis(): void;
 }
+//# sourceMappingURL=time.d.ts.map

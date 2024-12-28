@@ -307,3 +307,4 @@ import { DrawSettings } from './drawSettings.js';
 import { Font } from './font.js';
 import { Shader } from './shader/shader.js';
 import { Input } from './input.js';
+//# sourceMappingURL=sketch.d.ts.map

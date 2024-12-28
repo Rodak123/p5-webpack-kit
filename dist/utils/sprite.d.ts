@@ -52,3 +52,4 @@ export class Sprite {
      */
     drawAtRect(graphics: p5.Graphics, x: number, y: number, w: number, h: number): void;
 }
+//# sourceMappingURL=sprite.d.ts.map

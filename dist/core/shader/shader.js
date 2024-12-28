@@ -1,7 +1,14 @@
-import p5 from 'p5';
-import { Sketch } from '../sketch.js';
-import { validateFilePath, validateType } from '../validation.js';
-import { ShaderLayer } from './shaderLayer.js';
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ShaderLayer = exports.Shader = void 0;
+const p5_1 = __importDefault(require("p5"));
+const sketch_js_1 = require("../sketch.js");
+const validation_js_1 = require("../validation.js");
+const shaderLayer_js_1 = require("./shaderLayer.js");
+Object.defineProperty(exports, "ShaderLayer", { enumerable: true, get: function () { return shaderLayer_js_1.ShaderLayer; } });
 /**
  * Checks if source exists and is not empty
  * @param {null|string} source Source code of a shader component
@@ -13,7 +20,24 @@ function isSourceMissing(source) {
 /**
  * A easy to use shader class that loads the needed files and creates the desired shader type. Gets applied automatically.
  */
-var Shader = /** @class */ (function () {
+class Shader {
+    /**
+     * Returns paths of the shader components
+     * @param {string} shaderName Name of the shader
+     * @returns {string[]} [Fragment shader path, Vertex shader path]
+     */
+    static getShaderPaths(shaderName) {
+        const shaderFolder = this.getShaderFolder(shaderName);
+        return [`${shaderFolder}/${shaderName}.frag`, `${shaderFolder}/${shaderName}.vert`];
+    }
+    /**
+     * Returns the shader folder inside the resources folder
+     * @param {string} shaderName Name of the shader
+     * @returns {string} Folder of the shader
+     */
+    static getShaderFolder(shaderName) {
+        return sketch_js_1.Sketch.resourcesPath + '/shaders/' + shaderName;
+    }
     /**
      * @constructor
      * @param {ShaderLayer} shaderLayer On which layer gets this shader applied
@@ -22,10 +46,7 @@ var Shader = /** @class */ (function () {
      * @param {string} vert Path or source of the vertex shader, based on the usingSource argument
      * @param {boolean} usingSource Wheter the second and third arguments are paths to the shader or source code of the shader
      */
-    function Shader(shaderLayer, isFilter, frag, vert, usingSource) {
-        if (vert === void 0) { vert = ''; }
-        if (usingSource === void 0) { usingSource = false; }
-        var _this = this;
+    constructor(shaderLayer, isFilter, frag, vert = '', usingSource = false) {
         /**
          * @type {p5.Shader|null}
          */
@@ -59,7 +80,7 @@ var Shader = /** @class */ (function () {
          * On which layer gets this shader applied
          * @type {ShaderLayer}
          */
-        this._layer = ShaderLayer.GLOBAL;
+        this._layer = shaderLayer_js_1.ShaderLayer.GLOBAL;
         /**
          * Shader's context is a place where this shader can be applied.
          * Context get's picked automatically on creation.
@@ -72,77 +93,59 @@ var Shader = /** @class */ (function () {
          */
         this.autoApplied = true;
         this._shader = null;
-        this._isFilter = validateType(isFilter, true, 'isFilter');
-        this._layer = validateType(shaderLayer, ShaderLayer.GRAPHICS, 'shaderLayer');
-        validateType(usingSource, false, 'usingSource', this);
+        this._isFilter = (0, validation_js_1.validateType)(isFilter, true, 'isFilter');
+        this._layer = (0, validation_js_1.validateType)(shaderLayer, shaderLayer_js_1.ShaderLayer.GRAPHICS, 'shaderLayer');
+        (0, validation_js_1.validateType)(usingSource, false, 'usingSource', this);
         if (usingSource) {
             this._fragSource = frag;
             if (isFilter === false)
                 this._vertSource = vert;
         }
         else {
-            this._fragPath = validateFilePath(frag, ['frag'], 'Shader fragment path');
+            this._fragPath = (0, validation_js_1.validateFilePath)(frag, ['frag'], 'Shader fragment path');
             if (isFilter === false)
-                this._vertPath = validateFilePath(vert, ['vert'], 'Shader vertex path');
-            if (Sketch.isAfterPreload) {
-                console.error("Shader that is not using source must be created before ".concat(Sketch.preloadEventName, ". Aborting."));
+                this._vertPath = (0, validation_js_1.validateFilePath)(vert, ['vert'], 'Shader vertex path');
+            if (sketch_js_1.Sketch.isAfterPreload) {
+                console.error(`Shader that is not using source must be created before ${sketch_js_1.Sketch.preloadEventName}. Aborting.`);
                 return;
             }
             else {
-                Sketch.addPreloadEvent(function () {
-                    _this._loadShader();
+                sketch_js_1.Sketch.addPreloadEvent(() => {
+                    this._loadShader();
                 });
             }
         }
-        if (Sketch.isAfterSetup) {
-            console.error("Every shader must be created before ".concat(Sketch.setupEventName, ". Aborting."));
+        if (sketch_js_1.Sketch.isAfterSetup) {
+            console.error(`Every shader must be created before ${sketch_js_1.Sketch.setupEventName}. Aborting.`);
             return;
         }
         else {
-            Sketch.addSetupEvent(function () {
-                _this._createShader();
+            sketch_js_1.Sketch.addSetupEvent(() => {
+                this._createShader();
             });
         }
-        Sketch.addShader(this);
+        sketch_js_1.Sketch.addShader(this);
     }
-    /**
-     * Returns paths of the shader components
-     * @param {string} shaderName Name of the shader
-     * @returns {string[]} [Fragment shader path, Vertex shader path]
-     */
-    Shader.getShaderPaths = function (shaderName) {
-        var shaderFolder = this.getShaderFolder(shaderName);
-        return ["".concat(shaderFolder, "/").concat(shaderName, ".frag"), "".concat(shaderFolder, "/").concat(shaderName, ".vert")];
-    };
-    /**
-     * Returns the shader folder inside the resources folder
-     * @param {string} shaderName Name of the shader
-     * @returns {string} Folder of the shader
-     */
-    Shader.getShaderFolder = function (shaderName) {
-        return Sketch.resourcesPath + '/shaders/' + shaderName;
-    };
     /**
      * Loads shader source file content
      * @returns {void}
      */
-    Shader.prototype._loadShader = function () {
-        var _this = this;
-        Sketch.p5.loadStrings(this._fragPath, function (fragShaderLines) {
-            _this._fragSource = fragShaderLines.join('\n');
+    _loadShader() {
+        sketch_js_1.Sketch.p5.loadStrings(this._fragPath, (fragShaderLines) => {
+            this._fragSource = fragShaderLines.join('\n');
         });
         if (this._isFilter)
             return;
-        Sketch.p5.loadStrings(this._vertPath, function (vertShaderLines) {
-            _this._vertSource = vertShaderLines.join('\n');
+        sketch_js_1.Sketch.p5.loadStrings(this._vertPath, (vertShaderLines) => {
+            this._vertSource = vertShaderLines.join('\n');
         });
-    };
+    }
     /**
      * Creates p5.Shader instance
      * @returns {void}
      */
-    Shader.prototype._createShader = function () {
-        this._context = ShaderLayer.getShaderLayerContext(this.layer);
+    _createShader() {
+        this._context = shaderLayer_js_1.ShaderLayer.getShaderLayerContext(this.layer);
         if (this._isFilter) {
             if (isSourceMissing(this._fragSource))
                 throw new Error('Filter shader is missing fragment source.');
@@ -155,12 +158,12 @@ var Shader = /** @class */ (function () {
                 throw new Error('Shader is missing vertex source.');
             this._shader = this._context.createShader(this._vertSource, this._fragSource);
         }
-    };
+    }
     /**
      * Applies the shader to this layer's context
      * @returns {void}
      */
-    Shader.prototype.applyShader = function () {
+    applyShader() {
         var _a, _b;
         if (this._shader === null)
             return;
@@ -171,29 +174,20 @@ var Shader = /** @class */ (function () {
                 (_b = this._context) === null || _b === void 0 ? void 0 : _b.shader(this._shader);
         }
         catch (err) {
-            console.error("Shader failed to apply. Maybe a syntax error?\n".concat(err));
+            console.error(`Shader failed to apply. Maybe a syntax error?\n${err}`);
         }
-    };
-    Object.defineProperty(Shader.prototype, "layer", {
-        /**
-         * @returns {ShaderLayer} On which layer gets this shader applied
-         */
-        get: function () {
-            return this._layer;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(Shader.prototype, "shader", {
-        /**
-         * @returns {p5.Shader|null} Loaded p5.Shader
-         */
-        get: function () {
-            return this._shader;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    return Shader;
-}());
-export { Shader, ShaderLayer };
+    }
+    /**
+     * @returns {ShaderLayer} On which layer gets this shader applied
+     */
+    get layer() {
+        return this._layer;
+    }
+    /**
+     * @returns {p5.Shader|null} Loaded p5.Shader
+     */
+    get shader() {
+        return this._shader;
+    }
+}
+exports.Shader = Shader;

@@ -1,16 +1,54 @@
-import { Sketch } from '../webpacked-p5';
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.JsonAsset = void 0;
+const index_js_1 = require("../core/index.js");
 /**
  * Simple asset that loads a JSON file
  */
-var JsonAsset = /** @class */ (function () {
+class JsonAsset {
+    /**
+     * Appends new instance keys
+     * @param {string[]} value
+     */
+    static set instanceKeys(value) {
+        this._instanceKeys = value;
+    }
+    /**
+     * Loads all instances based on _instanceKeys
+     */
+    static load() {
+        this._instances = this._instanceKeys.map((key) => new this(key));
+    }
+    /**
+     * @returns {object[]}
+     */
+    static get() {
+        return this._instances;
+    }
+    /**
+     * @returns {boolean} Whether all assets are loaded
+     */
+    static get areAllAssetsLoaded() {
+        return this._assets.every((asset) => asset.isLoaded);
+    }
+    /**
+     * @returns {boolean} Whether this asset is loaded
+     */
+    get isLoaded() {
+        return this._data != null && this._isFailed === false;
+    }
+    /**
+     * @returns {boolean} Whether this asset failed to load
+     */
+    get isFailed() {
+        return this._isFailed;
+    }
     /**
      * @param {string} key Unique key
      * @param {string} assetPath Path to the folder of this asset
      * @param {boolean} load Whether this asset should be loaded
      */
-    function JsonAsset(key, assetPath, load) {
-        if (load === void 0) { load = true; }
-        var _this = this;
+    constructor(key, assetPath, load = true) {
         /**
          * @type {object} Raw JSON data of this asset
          */
@@ -25,97 +63,42 @@ var JsonAsset = /** @class */ (function () {
             return;
         }
         JsonAsset._assets.push(this);
-        Sketch.addPreloadEvent(function () {
-            assetPath = "".concat(assetPath, "/").concat(key);
-            Sketch.p5.loadJSON("".concat(assetPath, "/").concat(key, ".json"), function (data) {
+        index_js_1.Sketch.addPreloadEvent(() => {
+            assetPath = `${assetPath}/${key}`;
+            index_js_1.Sketch.p5.loadJSON(`${assetPath}/${key}.json`, (data) => {
                 var _a;
-                _this._data = data;
-                (_a = _this._onLoaded) === null || _a === void 0 ? void 0 : _a.call(_this, assetPath);
-            }, function (err) {
-                _this._failLoad(err);
+                this._data = data;
+                (_a = this._onLoaded) === null || _a === void 0 ? void 0 : _a.call(this, assetPath);
+            }, (err) => {
+                this._failLoad(err);
             });
         });
     }
-    Object.defineProperty(JsonAsset, "instanceKeys", {
-        /**
-         * Appends new instance keys
-         * @param {string[]} value
-         */
-        set: function (value) {
-            this._instanceKeys = value;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    /**
-     * Loads all instances based on _instanceKeys
-     */
-    JsonAsset.load = function () {
-        var _this = this;
-        this._instances = this._instanceKeys.map(function (key) { return new _this(key); });
-    };
-    /**
-     * @returns {object[]}
-     */
-    JsonAsset.get = function () {
-        return this._instances;
-    };
-    Object.defineProperty(JsonAsset, "areAllAssetsLoaded", {
-        /**
-         * @returns {boolean} Whether all assets are loaded
-         */
-        get: function () {
-            return this._assets.every(function (asset) { return asset.isLoaded; });
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(JsonAsset.prototype, "isLoaded", {
-        /**
-         * @returns {boolean} Whether this asset is loaded
-         */
-        get: function () {
-            return this._data != null && this._isFailed === false;
-        },
-        enumerable: false,
-        configurable: true
-    });
-    Object.defineProperty(JsonAsset.prototype, "isFailed", {
-        /**
-         * @returns {boolean} Whether this asset failed to load
-         */
-        get: function () {
-            return this._isFailed;
-        },
-        enumerable: false,
-        configurable: true
-    });
     /**
      * Gets called after being loaded
      * @param {string} assetPath Path to this asset
      */
-    JsonAsset.prototype._onLoaded = function (assetPath) { };
+    _onLoaded(assetPath) { }
     /**
      * Marks this asset as failed
      * @param {Error} err Error to log
      */
-    JsonAsset.prototype._failLoad = function (err) {
+    _failLoad(err) {
         this._isFailed = true;
-        console.error("Failed to load jsonAsset: '".concat(this._key, "'\n").concat(err));
-    };
-    /**
-     * @type {string[]}
-     */
-    JsonAsset._instanceKeys = [];
-    /**
-     * @type {object[]}
-     */
-    JsonAsset._instances = [];
-    /**
-     * All registered assets
-     * @type {JsonAsset[]}
-     */
-    JsonAsset._assets = [];
-    return JsonAsset;
-}());
-export { JsonAsset };
+        console.error(`Failed to load jsonAsset: '${this._key}'\n${err}`);
+    }
+}
+exports.JsonAsset = JsonAsset;
+/**
+ * @type {string[]}
+ */
+JsonAsset._instanceKeys = [];
+/**
+ * @type {object[]}
+ */
+JsonAsset._instances = [];
+/**
+ * All registered assets
+ * @type {JsonAsset[]}
+ */
+JsonAsset._assets = [];

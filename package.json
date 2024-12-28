@@ -13,6 +13,11 @@
   "scripts": {
     "build": "tsc"
   },
+  "exports": {
+    "./core": "./dist/core/index.js",
+    "./utils": "./dist/utils/index.js",
+    ".": "./dist/core/index.js"
+  },
   "type": "module",
   "dependencies": {
     "p5": "^1.11.2"

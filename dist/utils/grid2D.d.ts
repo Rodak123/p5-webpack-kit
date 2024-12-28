@@ -47,3 +47,4 @@ export class Grid2D {
      */
     inGrid(x: number, y: number): bool;
 }
+//# sourceMappingURL=grid2D.d.ts.map

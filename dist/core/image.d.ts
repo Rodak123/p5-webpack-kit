@@ -17,3 +17,4 @@ export class Image {
      */
     get image(): p5.Image;
 }
+//# sourceMappingURL=image.d.ts.map

@@ -1,4 +1,4 @@
-import { Sketch } from '../webpacked-p5';
+import { Sketch } from '../core/index.js';
 
 /**
  * Simple asset that loads a JSON file
@@ -113,7 +113,7 @@ class JsonAsset {
      * Gets called after being loaded
      * @param {string} assetPath Path to this asset
      */
-    _onLoaded(assetPath) {}
+    _onLoaded(assetPath) { }
 
     /**
      * Marks this asset as failed

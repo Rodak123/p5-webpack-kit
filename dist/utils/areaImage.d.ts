@@ -141,3 +141,4 @@ export class AreaSpriteSheet extends AreaImage {
      */
     set spriteT(value: number);
 }
+//# sourceMappingURL=areaImage.d.ts.map

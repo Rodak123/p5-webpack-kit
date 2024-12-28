@@ -15,3 +15,4 @@ export class Collision {
         y: number;
     }): boolean;
 }
+//# sourceMappingURL=collision.d.ts.map

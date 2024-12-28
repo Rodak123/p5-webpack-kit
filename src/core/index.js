@@ -1,14 +1,12 @@
-const runningInNode = typeof process !== 'undefined' && process.versions && process.versions.node;
-if (runningInNode) {
-    throw new Error(`This module can't be used in a node project`);
-}
+// const runningInNode = typeof process !== 'undefined' && process.versions && process.versions.node;
+// if (runningInNode) {
+//     throw new Error(`This module can't be used in a node project`);
+// }
 
-import { Font } from './font.js';
-import { Image } from './image.js';
-import { Input } from './input.js';
-import { Shader } from './shader/shader.js';
-import { ShaderLayer } from './shader/shaderLayer.js';
-import { Time } from './time.js';
-import { Sketch } from './sketch.js';
-
-export { Font, Image, Input, Shader, ShaderLayer, Sketch, Time };
+export { Font } from './font.js';
+export { Image } from './image.js';
+export { Input } from './input.js';
+export { Shader } from './shader/shader.js';
+export { ShaderLayer } from './shader/shaderLayer.js';
+export { Time } from './time.js';
+export { Sketch } from './sketch.js';

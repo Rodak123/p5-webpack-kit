@@ -94,3 +94,4 @@ export class Shader {
 }
 import { ShaderLayer } from './shaderLayer.js';
 export { ShaderLayer };
+//# sourceMappingURL=shader.d.ts.map

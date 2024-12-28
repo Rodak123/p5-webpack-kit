@@ -1,3 +1,8 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.validateFilePath = validateFilePath;
+exports.validateType = validateType;
+exports.validateTypeOrDefault = validateTypeOrDefault;
 /**
  * @param {any} value Value to check
  * @returns {boolean} Whether given value is undefined or null
@@ -13,21 +18,20 @@ function isNullOrUndefined(value) {
  * @returns {any} The provided value
  * @throws {TypeError} If types of value and exampleValue don't match
  */
-function validateType(value, exampleValue, valueName) {
-    if (valueName === void 0) { valueName = null; }
-    var generateWrongTypeMessage = function (provided, expected) {
-        return "Wrong type" +
-            (isNullOrUndefined(valueName) ? '' : " at '".concat(valueName, "'")) +
-            ", provided ".concat(provided, ", expected ").concat(expected, ".");
+function validateType(value, exampleValue, valueName = null) {
+    const generateWrongTypeMessage = (provided, expected) => {
+        return `Wrong type` +
+            (isNullOrUndefined(valueName) ? '' : ` at '${valueName}'`) +
+            `, provided ${provided}, expected ${expected}.`;
     };
-    var valueType = Object.prototype.toString.call(value);
-    var defaultType = Object.prototype.toString.call(exampleValue);
+    const valueType = Object.prototype.toString.call(value);
+    const defaultType = Object.prototype.toString.call(exampleValue);
     if (valueType !== defaultType) {
-        var message = generateWrongTypeMessage(valueType, defaultType);
+        const message = generateWrongTypeMessage(valueType, defaultType);
         throw new TypeError(message);
     }
     if (value.constructor !== exampleValue.constructor) {
-        var message = generateWrongTypeMessage(value.constructor.name, exampleValue.constructor.name);
+        const message = generateWrongTypeMessage(value.constructor.name, exampleValue.constructor.name);
         throw new TypeError(message);
     }
     return value;
@@ -39,8 +43,7 @@ function validateType(value, exampleValue, valueName) {
  * @param {string|null} valueName Name of the value
  * @returns {any} Return value or defaultValue
  */
-function validateTypeOrDefault(value, defaultValue, valueName) {
-    if (valueName === void 0) { valueName = undefined; }
+function validateTypeOrDefault(value, defaultValue, valueName = undefined) {
     try {
         return validateType(value, defaultValue, valueName);
     }
@@ -62,16 +65,14 @@ function extractFileExtension(path) {
  * @returns {string} The same path
  * @throws {Error} When file has the wrong extension
  */
-function validateFilePath(path, extensions, valueName) {
-    if (valueName === void 0) { valueName = null; }
+function validateFilePath(path, extensions, valueName = null) {
     path = validateType(path, '/', valueName);
-    for (var _i = 0, extensions_1 = extensions; _i < extensions_1.length; _i++) {
-        var extension = extensions_1[_i];
+    for (const extension of extensions) {
         if (isFilePathValid(path, extension))
             return path;
-        var message = "Wrong file extension" +
-            (isNullOrUndefined(valueName) ? '' : " at '".concat(valueName, "'")) +
-            ", provided ".concat(extractFileExtension(path), ", expected any of [").concat(extensions.join(', '), "]\n (Full path: ").concat(path, ")");
+        const message = `Wrong file extension` +
+            (isNullOrUndefined(valueName) ? '' : ` at '${valueName}'`) +
+            `, provided ${extractFileExtension(path)}, expected any of [${extensions.join(', ')}]\n (Full path: ${path})`;
         throw new Error(message);
     }
     return path;
@@ -85,4 +86,3 @@ function validateFilePath(path, extensions, valueName) {
 function isFilePathValid(path, extension) {
     return extension === extractFileExtension(path);
 }
-export { validateFilePath, validateType, validateTypeOrDefault };

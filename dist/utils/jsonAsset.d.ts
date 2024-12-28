@@ -69,3 +69,4 @@ export class JsonAsset {
      */
     _failLoad(err: Error): void;
 }
+//# sourceMappingURL=jsonAsset.d.ts.map
