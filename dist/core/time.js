@@ -1,11 +1,5 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Time = void 0;
-var p5_1 = __importDefault(require("p5"));
-var sketch_js_1 = require("./sketch.js");
+import p5 from 'p5';
+import { Sketch } from './sketch.js';
 /**
  * A global time class that allows speeding up and slowing down time
  */
@@ -73,7 +67,7 @@ var Time = /** @class */ (function () {
          * @returns {number} milliseconds
          */
         get: function () {
-            return sketch_js_1.Sketch.p5.millis();
+            return Sketch.p5.millis();
         },
         enumerable: false,
         configurable: true
@@ -100,14 +94,14 @@ var Time = /** @class */ (function () {
          * @returns {number} Current frame rate
          */
         get: function () {
-            return sketch_js_1.Sketch.p5.frameRate();
+            return Sketch.p5.frameRate();
         },
         /**
          * Sets the target frame rate
          * @param {number} value
          */
         set: function (value) {
-            sketch_js_1.Sketch.p5.frameRate(value);
+            Sketch.p5.frameRate(value);
         },
         enumerable: false,
         configurable: true
@@ -117,7 +111,7 @@ var Time = /** @class */ (function () {
          * @returns {number} Frames since start of the sketch
          */
         get: function () {
-            return sketch_js_1.Sketch.p5.frameCount;
+            return Sketch.p5.frameCount;
         },
         enumerable: false,
         configurable: true
@@ -175,4 +169,4 @@ var Time = /** @class */ (function () {
     Time._millis = 0;
     return Time;
 }());
-exports.Time = Time;
+export { Time };

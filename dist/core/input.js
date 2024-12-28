@@ -1,12 +1,6 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Input = void 0;
-var p5_1 = __importDefault(require("p5"));
-var sketch_js_1 = require("./sketch.js");
-var time_js_1 = require("./time.js");
+import p5 from 'p5';
+import { Sketch } from './sketch.js';
+import { Time } from './time.js';
 /**
  * Easy to use class that stores all p5 events as an array of listeners, rather than just as one method
  */
@@ -70,9 +64,9 @@ var Input = /** @class */ (function () {
      * @returns {boolean} Wheter asked key is pressed
      */
     Input.isKeyDown = function (key) {
-        if (!sketch_js_1.Sketch.isSketchActive)
+        if (!Sketch.isSketchActive)
             return false;
-        return sketch_js_1.Sketch.p5.keyIsDown(key.toUpperCase().charCodeAt(0));
+        return Sketch.p5.keyIsDown(key.toUpperCase().charCodeAt(0));
     };
     /**
      * @param {p5.LEFT|p5.CENTER|p5.RIGHT} mouseButton
@@ -81,25 +75,25 @@ var Input = /** @class */ (function () {
     Input.getFramesSinceLastMousePress = function (mouseButton) {
         if (!mouseButton in this._lastMousePressFrame)
             return -1;
-        return time_js_1.Time.frameCount - this._lastMousePressFrame[mouseButton];
+        return Time.frameCount - this._lastMousePressFrame[mouseButton];
     };
     /**
      * @param {number} keyCode Key code
      * @returns {boolean} Wheter asked key code is pressed
      */
     Input.isKeyCodeDown = function (keyCode) {
-        if (!sketch_js_1.Sketch.isSketchActive)
+        if (!Sketch.isSketchActive)
             return false;
-        return sketch_js_1.Sketch.p5.keyIsDown(keyCode);
+        return Sketch.p5.keyIsDown(keyCode);
     };
     Object.defineProperty(Input, "mouseX", {
         /**
          * @returns {number} Horizontal mouse or touch position relative to the canvas (0, 0)
          */
         get: function () {
-            if (!sketch_js_1.Sketch.isSketchActive)
+            if (!Sketch.isSketchActive)
                 return 0;
-            return sketch_js_1.Sketch.p5.mouseX;
+            return Sketch.p5.mouseX;
         },
         enumerable: false,
         configurable: true
@@ -109,9 +103,9 @@ var Input = /** @class */ (function () {
          * @returns {number} Vertical mouse or touch position relative to the canvas (0, 0)
          */
         get: function () {
-            if (!sketch_js_1.Sketch.isSketchActive)
+            if (!Sketch.isSketchActive)
                 return 0;
-            return sketch_js_1.Sketch.p5.mouseY;
+            return Sketch.p5.mouseY;
         },
         enumerable: false,
         configurable: true
@@ -121,9 +115,9 @@ var Input = /** @class */ (function () {
          * @returns {number} Horizontal mouse or touch position relative to the canvas (0, 0) of the previous frame
          */
         get: function () {
-            if (!sketch_js_1.Sketch.isSketchActive)
+            if (!Sketch.isSketchActive)
                 return 0;
-            return sketch_js_1.Sketch.p5.pmouseX;
+            return Sketch.p5.pmouseX;
         },
         enumerable: false,
         configurable: true
@@ -133,9 +127,9 @@ var Input = /** @class */ (function () {
          * @returns {number} Vertical mouse or touch position relative to the canvas (0, 0) of the previous frame
          */
         get: function () {
-            if (!sketch_js_1.Sketch.isSketchActive)
+            if (!Sketch.isSketchActive)
                 return 0;
-            return sketch_js_1.Sketch.p5.pmouseY;
+            return Sketch.p5.pmouseY;
         },
         enumerable: false,
         configurable: true
@@ -145,9 +139,9 @@ var Input = /** @class */ (function () {
          * @returns {number} Horizontal mouse or touch position relative to the window (0, 0)
          */
         get: function () {
-            if (!sketch_js_1.Sketch.isSketchActive)
+            if (!Sketch.isSketchActive)
                 return 0;
-            return sketch_js_1.Sketch.p5.winMouseX;
+            return Sketch.p5.winMouseX;
         },
         enumerable: false,
         configurable: true
@@ -157,9 +151,9 @@ var Input = /** @class */ (function () {
          * @returns {number} Vertical mouse or touch position relative to the window (0, 0)
          */
         get: function () {
-            if (!sketch_js_1.Sketch.isSketchActive)
+            if (!Sketch.isSketchActive)
                 return 0;
-            return sketch_js_1.Sketch.p5.winMouseY;
+            return Sketch.p5.winMouseY;
         },
         enumerable: false,
         configurable: true
@@ -169,9 +163,9 @@ var Input = /** @class */ (function () {
          * @returns {object[]} Array of touch x and y positions relative to the canvas (0, 0) and unique IDs of each touch
          */
         get: function () {
-            if (!sketch_js_1.Sketch.isSketchActive)
+            if (!Sketch.isSketchActive)
                 return [];
-            return sketch_js_1.Sketch.p5.touches;
+            return Sketch.p5.touches;
         },
         enumerable: false,
         configurable: true
@@ -181,9 +175,9 @@ var Input = /** @class */ (function () {
          * @returns {string} Which mouse button was pressed last, either p5.LEFT, p5.RIGHT, p5.CENTER or 'none' when p5 is not yet loaded.
          */
         get: function () {
-            if (!sketch_js_1.Sketch.isSketchActive)
+            if (!Sketch.isSketchActive)
                 return 'none';
-            return sketch_js_1.Sketch.p5.mouseButton;
+            return Sketch.p5.mouseButton;
         },
         enumerable: false,
         configurable: true
@@ -193,9 +187,9 @@ var Input = /** @class */ (function () {
          * @returns {boolean} True if mouse is pressed and false if not
          */
         get: function () {
-            if (!sketch_js_1.Sketch.isSketchActive)
+            if (!Sketch.isSketchActive)
                 return false;
-            return sketch_js_1.Sketch.p5.mouseIsPressed;
+            return Sketch.p5.mouseIsPressed;
         },
         enumerable: false,
         configurable: true
@@ -301,7 +295,7 @@ var Input = /** @class */ (function () {
         p5.mouseDragged = function (event) { return callAllEventListeners(_this._mouseDraggedEvents, event); };
         p5.mouseMoved = function (event) { return callAllEventListeners(_this._mouseMovedEvents, event); };
         p5.mousePressed = function (event) {
-            Input._lastMousePressFrame[sketch_js_1.Sketch.p5.mouseButton] = time_js_1.Time.frameCount;
+            Input._lastMousePressFrame[Sketch.p5.mouseButton] = Time.frameCount;
             callAllEventListeners(_this._mousePressedEvents, event);
         };
         p5.mouseReleased = function (event) { return callAllEventListeners(_this._mouseReleasedEvents, event); };
@@ -319,7 +313,7 @@ var Input = /** @class */ (function () {
          * @param {Event} event
          */
         var callAllEventListeners = function (eventListeners, event) {
-            eventListeners.forEach(function (eventListener) { return eventListener === null || eventListener === void 0 ? void 0 : eventListener.call(sketch_js_1.Sketch.sketch, event); });
+            eventListeners.forEach(function (eventListener) { return eventListener === null || eventListener === void 0 ? void 0 : eventListener.call(Sketch.sketch, event); });
         };
     };
     /**
@@ -332,4 +326,4 @@ var Input = /** @class */ (function () {
     };
     return Input;
 }());
-exports.Input = Input;
+export { Input };

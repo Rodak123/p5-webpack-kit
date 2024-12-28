@@ -1,4 +1,3 @@
-"use strict";
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
@@ -14,13 +13,8 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.AreaSpriteSheet = exports.AreaImage = exports.Area = void 0;
-var p5_1 = __importDefault(require("p5"));
-var index_js_1 = require("../core/index.js");
+import p5 from 'p5';
+import { Input, Sketch } from '../core/index.js';
 var Area = /** @class */ (function () {
     /**
      *
@@ -128,8 +122,8 @@ var Area = /** @class */ (function () {
     Area.prototype.over = function (pointX, pointY) {
         if (pointX === void 0) { pointX = undefined; }
         if (pointY === void 0) { pointY = undefined; }
-        pointX = pointX !== null && pointX !== void 0 ? pointX : index_js_1.Input.mouseX;
-        pointY = pointY !== null && pointY !== void 0 ? pointY : index_js_1.Input.mouseY;
+        pointX = pointX !== null && pointX !== void 0 ? pointX : Input.mouseX;
+        pointY = pointY !== null && pointY !== void 0 ? pointY : Input.mouseY;
         var _a = this, x = _a.x, y = _a.y, w = _a.w, h = _a.h;
         return pointX >= x && pointX < x + w && pointY >= y && pointY < y + h;
     };
@@ -138,12 +132,11 @@ var Area = /** @class */ (function () {
      */
     Area.prototype.draw = function () {
         var _a = this, x = _a.x, y = _a.y, w = _a.w, h = _a.h;
-        index_js_1.Sketch.pixelGraphics.rectMode(index_js_1.Sketch.p5.CORNER);
-        index_js_1.Sketch.pixelGraphics.rect(x, y, w, h);
+        Sketch.pixelGraphics.rectMode(Sketch.p5.CORNER);
+        Sketch.pixelGraphics.rect(x, y, w, h);
     };
     return Area;
 }());
-exports.Area = Area;
 var AreaImage = /** @class */ (function () {
     /**
      * @param {Area} area Area of this image
@@ -159,7 +152,7 @@ var AreaImage = /** @class */ (function () {
          * @type {p5.Image|null}
          */
         this._image = null;
-        index_js_1.Sketch.p5.loadImage(imagePath, function (image) {
+        Sketch.p5.loadImage(imagePath, function (image) {
             _this._image = image;
             success === null || success === void 0 ? void 0 : success.call(_this, image);
         }, function (err) {
@@ -192,8 +185,8 @@ var AreaImage = /** @class */ (function () {
      */
     AreaImage.prototype.draw = function () {
         var _a = this._area, x = _a.x, y = _a.y, w = _a.w, h = _a.h;
-        index_js_1.Sketch.pixelGraphics.imageMode(index_js_1.Sketch.p5.CORNER);
-        index_js_1.Sketch.pixelGraphics.image(this.image, x, y, w, h);
+        Sketch.pixelGraphics.imageMode(Sketch.p5.CORNER);
+        Sketch.pixelGraphics.image(this.image, x, y, w, h);
     };
     /**
      * Draw this image, uses an (x, y) position as center
@@ -202,8 +195,8 @@ var AreaImage = /** @class */ (function () {
      */
     AreaImage.prototype.drawAt = function (x, y) {
         var _a = this._area, w = _a.w, h = _a.h;
-        index_js_1.Sketch.pixelGraphics.imageMode(index_js_1.Sketch.p5.CENTER);
-        index_js_1.Sketch.pixelGraphics.image(this.image, x, y, w, h);
+        Sketch.pixelGraphics.imageMode(Sketch.p5.CENTER);
+        Sketch.pixelGraphics.image(this.image, x, y, w, h);
     };
     /**
      * Draws this images area using p5.Graphics.rect
@@ -213,7 +206,6 @@ var AreaImage = /** @class */ (function () {
     };
     return AreaImage;
 }());
-exports.AreaImage = AreaImage;
 var AreaSpriteSheet = /** @class */ (function (_super) {
     __extends(AreaSpriteSheet, _super);
     /**
@@ -254,7 +246,7 @@ var AreaSpriteSheet = /** @class */ (function (_super) {
          */
         set: function (value) {
             value = parseInt(value);
-            this._sprite = index_js_1.Sketch.p5.constrain(value, 0, this._sprites.length - 1);
+            this._sprite = Sketch.p5.constrain(value, 0, this._sprites.length - 1);
         },
         enumerable: false,
         configurable: true
@@ -281,4 +273,4 @@ var AreaSpriteSheet = /** @class */ (function (_super) {
     });
     return AreaSpriteSheet;
 }(AreaImage));
-exports.AreaSpriteSheet = AreaSpriteSheet;
+export { Area, AreaImage, AreaSpriteSheet };

@@ -1,8 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateFilePath = validateFilePath;
-exports.validateType = validateType;
-exports.validateTypeOrDefault = validateTypeOrDefault;
 /**
  * @param {any} value Value to check
  * @returns {boolean} Whether given value is undefined or null
@@ -90,3 +85,4 @@ function validateFilePath(path, extensions, valueName) {
 function isFilePathValid(path, extension) {
     return extension === extractFileExtension(path);
 }
+export { validateFilePath, validateType, validateTypeOrDefault };

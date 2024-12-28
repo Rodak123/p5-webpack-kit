@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Collision = void 0;
 var Collision = /** @class */ (function () {
     function Collision() {
     }
@@ -17,4 +14,4 @@ var Collision = /** @class */ (function () {
     };
     return Collision;
 }());
-exports.Collision = Collision;
+export { Collision };

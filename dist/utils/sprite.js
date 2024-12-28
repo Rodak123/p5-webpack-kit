@@ -1,11 +1,5 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Sprite = void 0;
-var p5_1 = __importDefault(require("p5"));
-var index_js_1 = require("../core/index.js");
+import p5 from 'p5';
+import { Sketch } from '../core/index.js';
 var Sprite = /** @class */ (function () {
     /**
      * @param {string} assetPath
@@ -30,8 +24,8 @@ var Sprite = /** @class */ (function () {
         this._name = name;
         this._width = dim[0];
         this._height = dim[1];
-        index_js_1.Sketch.addPreloadEvent(function () {
-            _this._image = index_js_1.Sketch.p5.loadImage("".concat(assetPath, "/").concat(name), function (image) {
+        Sketch.addPreloadEvent(function () {
+            _this._image = Sketch.p5.loadImage("".concat(assetPath, "/").concat(name), function (image) {
                 _this._image = image;
             }, function (err) {
                 _failed = true;
@@ -95,4 +89,4 @@ var Sprite = /** @class */ (function () {
     };
     return Sprite;
 }());
-exports.Sprite = Sprite;
+export { Sprite };

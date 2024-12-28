@@ -1,12 +1,6 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Image = void 0;
-var p5_1 = __importDefault(require("p5"));
-var sketch_js_1 = require("./sketch.js");
-var validation_js_1 = require("./validation.js");
+import p5 from 'p5';
+import { Sketch } from './sketch.js';
+import { validateFilePath } from './validation.js';
 /**
  * Easy to use image class that loads the desired image on preload
  */
@@ -16,13 +10,13 @@ var Image = /** @class */ (function () {
      */
     function Image(imagePath) {
         var _this = this;
-        this._imagePath = (0, validation_js_1.validateFilePath)(imagePath, [], 'Image path');
+        this._imagePath = validateFilePath(imagePath, [], 'Image path');
         this._image = null;
-        if (sketch_js_1.Sketch.isAfterPreload) {
-            console.error("Image must be created before '".concat(sketch_js_1.Sketch.preloadEventName, "'."));
+        if (Sketch.isAfterPreload) {
+            console.error("Image must be created before '".concat(Sketch.preloadEventName, "'."));
         }
         else {
-            sketch_js_1.Sketch.addPreloadEvent(function () {
+            Sketch.addPreloadEvent(function () {
                 _this._loadImage();
             });
         }
@@ -32,8 +26,8 @@ var Image = /** @class */ (function () {
      */
     Image.prototype._loadImage = function () {
         var _this = this;
-        var imagePath = "".concat(sketch_js_1.Sketch.resourcesPath, "/images/").concat(this._imagePath);
-        sketch_js_1.Sketch.p5.loadImage(imagePath, function (image) {
+        var imagePath = "".concat(Sketch.resourcesPath, "/images/").concat(this._imagePath);
+        Sketch.p5.loadImage(imagePath, function (image) {
             _this._image = image;
         }, function (err) {
             console.error("Failed to load image at '".concat(imagePath, "'.\n").concat(err));
@@ -51,4 +45,4 @@ var Image = /** @class */ (function () {
     });
     return Image;
 }());
-exports.Image = Image;
+export { Image };

@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.DrawSettings = void 0;
 /**
  * Settings that change how draw is handeled
  */
@@ -105,4 +102,4 @@ var DrawSettings = /** @class */ (function () {
     });
     return DrawSettings;
 }());
-exports.DrawSettings = DrawSettings;
+export { DrawSettings };

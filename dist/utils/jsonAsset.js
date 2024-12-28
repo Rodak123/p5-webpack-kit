@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.JsonAsset = void 0;
-var webpacked_p5_1 = require("../webpacked-p5");
+import { Sketch } from '../webpacked-p5';
 /**
  * Simple asset that loads a JSON file
  */
@@ -28,9 +25,9 @@ var JsonAsset = /** @class */ (function () {
             return;
         }
         JsonAsset._assets.push(this);
-        webpacked_p5_1.Sketch.addPreloadEvent(function () {
+        Sketch.addPreloadEvent(function () {
             assetPath = "".concat(assetPath, "/").concat(key);
-            webpacked_p5_1.Sketch.p5.loadJSON("".concat(assetPath, "/").concat(key, ".json"), function (data) {
+            Sketch.p5.loadJSON("".concat(assetPath, "/").concat(key, ".json"), function (data) {
                 var _a;
                 _this._data = data;
                 (_a = _this._onLoaded) === null || _a === void 0 ? void 0 : _a.call(_this, assetPath);
@@ -121,4 +118,4 @@ var JsonAsset = /** @class */ (function () {
     JsonAsset._assets = [];
     return JsonAsset;
 }());
-exports.JsonAsset = JsonAsset;
+export { JsonAsset };

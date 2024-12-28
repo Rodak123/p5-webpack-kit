@@ -1,14 +1,7 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ShaderLayer = exports.Shader = void 0;
-var p5_1 = __importDefault(require("p5"));
-var sketch_js_1 = require("../sketch.js");
-var validation_js_1 = require("../validation.js");
-var shaderLayer_js_1 = require("./shaderLayer.js");
-Object.defineProperty(exports, "ShaderLayer", { enumerable: true, get: function () { return shaderLayer_js_1.ShaderLayer; } });
+import p5 from 'p5';
+import { Sketch } from '../sketch.js';
+import { validateFilePath, validateType } from '../validation.js';
+import { ShaderLayer } from './shaderLayer.js';
 /**
  * Checks if source exists and is not empty
  * @param {null|string} source Source code of a shader component
@@ -66,7 +59,7 @@ var Shader = /** @class */ (function () {
          * On which layer gets this shader applied
          * @type {ShaderLayer}
          */
-        this._layer = shaderLayer_js_1.ShaderLayer.GLOBAL;
+        this._layer = ShaderLayer.GLOBAL;
         /**
          * Shader's context is a place where this shader can be applied.
          * Context get's picked automatically on creation.
@@ -79,38 +72,38 @@ var Shader = /** @class */ (function () {
          */
         this.autoApplied = true;
         this._shader = null;
-        this._isFilter = (0, validation_js_1.validateType)(isFilter, true, 'isFilter');
-        this._layer = (0, validation_js_1.validateType)(shaderLayer, shaderLayer_js_1.ShaderLayer.GRAPHICS, 'shaderLayer');
-        (0, validation_js_1.validateType)(usingSource, false, 'usingSource', this);
+        this._isFilter = validateType(isFilter, true, 'isFilter');
+        this._layer = validateType(shaderLayer, ShaderLayer.GRAPHICS, 'shaderLayer');
+        validateType(usingSource, false, 'usingSource', this);
         if (usingSource) {
             this._fragSource = frag;
             if (isFilter === false)
                 this._vertSource = vert;
         }
         else {
-            this._fragPath = (0, validation_js_1.validateFilePath)(frag, ['frag'], 'Shader fragment path');
+            this._fragPath = validateFilePath(frag, ['frag'], 'Shader fragment path');
             if (isFilter === false)
-                this._vertPath = (0, validation_js_1.validateFilePath)(vert, ['vert'], 'Shader vertex path');
-            if (sketch_js_1.Sketch.isAfterPreload) {
-                console.error("Shader that is not using source must be created before ".concat(sketch_js_1.Sketch.preloadEventName, ". Aborting."));
+                this._vertPath = validateFilePath(vert, ['vert'], 'Shader vertex path');
+            if (Sketch.isAfterPreload) {
+                console.error("Shader that is not using source must be created before ".concat(Sketch.preloadEventName, ". Aborting."));
                 return;
             }
             else {
-                sketch_js_1.Sketch.addPreloadEvent(function () {
+                Sketch.addPreloadEvent(function () {
                     _this._loadShader();
                 });
             }
         }
-        if (sketch_js_1.Sketch.isAfterSetup) {
-            console.error("Every shader must be created before ".concat(sketch_js_1.Sketch.setupEventName, ". Aborting."));
+        if (Sketch.isAfterSetup) {
+            console.error("Every shader must be created before ".concat(Sketch.setupEventName, ". Aborting."));
             return;
         }
         else {
-            sketch_js_1.Sketch.addSetupEvent(function () {
+            Sketch.addSetupEvent(function () {
                 _this._createShader();
             });
         }
-        sketch_js_1.Sketch.addShader(this);
+        Sketch.addShader(this);
     }
     /**
      * Returns paths of the shader components
@@ -127,7 +120,7 @@ var Shader = /** @class */ (function () {
      * @returns {string} Folder of the shader
      */
     Shader.getShaderFolder = function (shaderName) {
-        return sketch_js_1.Sketch.resourcesPath + '/shaders/' + shaderName;
+        return Sketch.resourcesPath + '/shaders/' + shaderName;
     };
     /**
      * Loads shader source file content
@@ -135,12 +128,12 @@ var Shader = /** @class */ (function () {
      */
     Shader.prototype._loadShader = function () {
         var _this = this;
-        sketch_js_1.Sketch.p5.loadStrings(this._fragPath, function (fragShaderLines) {
+        Sketch.p5.loadStrings(this._fragPath, function (fragShaderLines) {
             _this._fragSource = fragShaderLines.join('\n');
         });
         if (this._isFilter)
             return;
-        sketch_js_1.Sketch.p5.loadStrings(this._vertPath, function (vertShaderLines) {
+        Sketch.p5.loadStrings(this._vertPath, function (vertShaderLines) {
             _this._vertSource = vertShaderLines.join('\n');
         });
     };
@@ -149,7 +142,7 @@ var Shader = /** @class */ (function () {
      * @returns {void}
      */
     Shader.prototype._createShader = function () {
-        this._context = shaderLayer_js_1.ShaderLayer.getShaderLayerContext(this.layer);
+        this._context = ShaderLayer.getShaderLayerContext(this.layer);
         if (this._isFilter) {
             if (isSourceMissing(this._fragSource))
                 throw new Error('Filter shader is missing fragment source.');
@@ -203,4 +196,4 @@ var Shader = /** @class */ (function () {
     });
     return Shader;
 }());
-exports.Shader = Shader;
+export { Shader, ShaderLayer };

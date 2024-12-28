@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Grid2D = void 0;
 var Grid2D = /** @class */ (function () {
     /**
      *
@@ -72,4 +69,4 @@ var Grid2D = /** @class */ (function () {
     };
     return Grid2D;
 }());
-exports.Grid2D = Grid2D;
+export { Grid2D };

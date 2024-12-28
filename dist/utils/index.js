@@ -1,11 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Sprite = exports.JsonAsset = exports.Grid2D = exports.AreaImage = void 0;
-var areaImage_js_1 = require("./areaImage.js");
-Object.defineProperty(exports, "AreaImage", { enumerable: true, get: function () { return areaImage_js_1.AreaImage; } });
-var grid2D_js_1 = require("./grid2D.js");
-Object.defineProperty(exports, "Grid2D", { enumerable: true, get: function () { return grid2D_js_1.Grid2D; } });
-var jsonAsset_js_1 = require("./jsonAsset.js");
-Object.defineProperty(exports, "JsonAsset", { enumerable: true, get: function () { return jsonAsset_js_1.JsonAsset; } });
-var sprite_js_1 = require("./sprite.js");
-Object.defineProperty(exports, "Sprite", { enumerable: true, get: function () { return sprite_js_1.Sprite; } });
+import { AreaImage } from "./areaImage.js";
+import { Grid2D } from "./grid2D.js";
+import { JsonAsset } from "./jsonAsset.js";
+import { Sprite } from "./sprite.js";
+export { AreaImage, Grid2D, JsonAsset, Sprite };

@@ -7,9 +7,10 @@
         "outDir": "./dist",
         "rootDir": "./src",
         "esModuleInterop": true,
-        "moduleResolution": "node"
+        "moduleResolution": "node",
+        "module": "ESNext",
     },
     "include": [
-        "src/**/*.js"
+        "src/**/*"
     ]
 }

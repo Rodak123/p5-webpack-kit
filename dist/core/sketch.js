@@ -1,16 +1,10 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Sketch = void 0;
-var p5_1 = __importDefault(require("p5"));
-var drawSettings_js_1 = require("./drawSettings.js");
-var font_js_1 = require("./font.js");
-var input_js_1 = require("./input.js");
-var shader_js_1 = require("./shader/shader.js");
-var time_js_1 = require("./time.js");
-var validation_js_1 = require("./validation.js");
+import p5 from 'p5';
+import { DrawSettings } from './drawSettings.js';
+import { Font } from './font.js';
+import { Input } from './input.js';
+import { Shader, ShaderLayer } from './shader/shader.js';
+import { Time } from './time.js';
+import { validateTypeOrDefault } from './validation.js';
 /**
  * A wrapper class for a p5 sketch instance.
  */
@@ -54,7 +48,7 @@ var Sketch = /** @class */ (function () {
         /**
          * @type {DrawSettings}
          */
-        this._drawSettings = new drawSettings_js_1.DrawSettings();
+        this._drawSettings = new DrawSettings();
         /**
          * @type {Font|null}
          */
@@ -78,7 +72,7 @@ var Sketch = /** @class */ (function () {
         /**
          * @type {Input}
          */
-        this._input = new input_js_1.Input();
+        this._input = new Input();
         /**
          * @type {boolean} Whether this sketch can be started
          */
@@ -107,12 +101,12 @@ var Sketch = /** @class */ (function () {
             console.error('There can be only one sketch instance. Aborting.');
             return;
         }
-        this._width = (0, validation_js_1.validateTypeOrDefault)(settings.width, 800, 'Sketch width');
-        this._height = (0, validation_js_1.validateTypeOrDefault)(settings.height, 800, 'Sketch height');
-        var defaultFontPath = (0, validation_js_1.validateTypeOrDefault)(settings.defaultFontPath, 'Roboto/Roboto-Regular.ttf', 'Sketch default font path');
-        this._font = new font_js_1.Font(defaultFontPath);
+        this._width = validateTypeOrDefault(settings.width, 800, 'Sketch width');
+        this._height = validateTypeOrDefault(settings.height, 800, 'Sketch height');
+        var defaultFontPath = validateTypeOrDefault(settings.defaultFontPath, 'Roboto/Roboto-Regular.ttf', 'Sketch default font path');
+        this._font = new Font(defaultFontPath);
         Sketch._activeSketch = this;
-        this._p5 = new p5_1.default(function (p5) {
+        this._p5 = new p5(function (p5) {
             p5.setup = function () {
                 p5.noCanvas();
                 p5.noLoop();
@@ -466,7 +460,7 @@ var Sketch = /** @class */ (function () {
         if (global === void 0) { global = false; }
         if (this._canStart !== true)
             return;
-        new p5_1.default(function (p5) {
+        new p5(function (p5) {
             _this._p5 = p5;
             p5.preload = function () { return _this._preload(); };
             p5.setup = function () { return _this._setup(); };
@@ -525,9 +519,9 @@ var Sketch = /** @class */ (function () {
         this._graphicsUI = this.p5.createGraphics(this.width, this.height, this.p5.WEBGL);
         this._pixelGraphics = this.p5.createGraphics(this.width, this.height);
         this._pixelGraphics.noSmooth();
-        time_js_1.Time.synchronizeMillis();
+        Time.synchronizeMillis();
         Sketch._dumpShaders().forEach(function (shader) {
-            var shaderArray = shader.layer.isSameAs(shader_js_1.ShaderLayer.GLOBAL)
+            var shaderArray = shader.layer.isSameAs(ShaderLayer.GLOBAL)
                 ? _this._globalShaders
                 : _this._shaders;
             shaderArray.push(shader);
@@ -542,7 +536,7 @@ var Sketch = /** @class */ (function () {
      */
     Sketch.prototype._draw = function () {
         var _this = this;
-        time_js_1.Time.update(this.p5);
+        Time.update(this.p5);
         this._updateListeners.forEach(function (listener) { return listener === null || listener === void 0 ? void 0 : listener.call(_this); });
         if (this._p5.frameCount > 1) {
             this._graphics.pop();
@@ -617,7 +611,7 @@ var Sketch = /** @class */ (function () {
             return false;
         this._isHidden = true;
         this._canvas.hide();
-        time_js_1.Time.timeScale = 0;
+        Time.timeScale = 0;
         return true;
     };
     /**
@@ -629,7 +623,7 @@ var Sketch = /** @class */ (function () {
             return false;
         this._isHidden = false;
         this._canvas.show();
-        time_js_1.Time.timeScale = 1;
+        Time.timeScale = 1;
         return true;
     };
     /**
@@ -650,4 +644,4 @@ var Sketch = /** @class */ (function () {
     Sketch._shaders = [];
     return Sketch;
 }());
-exports.Sketch = Sketch;
+export { Sketch };

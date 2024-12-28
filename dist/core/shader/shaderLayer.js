@@ -1,11 +1,5 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.ShaderLayer = void 0;
-var p5_1 = __importDefault(require("p5"));
-var sketch_js_1 = require("../sketch.js");
+import p5 from 'p5';
+import { Sketch } from '../sketch.js';
 /**
  * Shader layers determine in which context is shader applied
  */
@@ -67,11 +61,11 @@ var ShaderLayer = /** @class */ (function () {
             return shaderLayer._context;
         switch (shaderLayer.key) {
             case ShaderLayer.GLOBAL.key:
-                return sketch_js_1.Sketch.p5;
+                return Sketch.p5;
             case ShaderLayer.GRAPHICS.key:
-                return sketch_js_1.Sketch.graphics;
+                return Sketch.graphics;
             case ShaderLayer.GRAPHICS_UI.key:
-                return sketch_js_1.Sketch.graphicsUI;
+                return Sketch.graphicsUI;
             default:
                 throw new Error("Shader layer key '".concat(shaderLayer.key, "' is unknown"));
         }
@@ -95,7 +89,6 @@ var ShaderLayer = /** @class */ (function () {
     };
     return ShaderLayer;
 }());
-exports.ShaderLayer = ShaderLayer;
 /**
  * @constant {ShaderLayer}
  */
@@ -108,3 +101,4 @@ var GRAPHICS = new ShaderLayer('graphics');
  * @constant {ShaderLayer}
  */
 var GRAPHICS_UI = new ShaderLayer('graphicsUI');
+export { ShaderLayer };

@@ -1,12 +1,6 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Font = void 0;
-var p5_1 = __importDefault(require("p5"));
-var sketch_js_1 = require("./sketch.js");
-var validation_js_1 = require("./validation.js");
+import p5 from 'p5';
+import { Sketch } from './sketch.js';
+import { validateFilePath } from './validation.js';
 /**
  * Easy to use font class that loads the desired font on preload
  */
@@ -16,13 +10,13 @@ var Font = /** @class */ (function () {
      */
     function Font(fontPath) {
         var _this = this;
-        this._fontPath = (0, validation_js_1.validateFilePath)(fontPath, [], 'Font path');
+        this._fontPath = validateFilePath(fontPath, [], 'Font path');
         this._font = null;
-        if (sketch_js_1.Sketch.isAfterPreload) {
-            console.error("Font must be created before '".concat(sketch_js_1.Sketch.preloadEventName, "'."));
+        if (Sketch.isAfterPreload) {
+            console.error("Font must be created before '".concat(Sketch.preloadEventName, "'."));
         }
         else {
-            sketch_js_1.Sketch.addPreloadEvent(function () {
+            Sketch.addPreloadEvent(function () {
                 _this._loadFont();
             });
         }
@@ -32,8 +26,8 @@ var Font = /** @class */ (function () {
      */
     Font.prototype._loadFont = function () {
         var _this = this;
-        var fontPath = "".concat(sketch_js_1.Sketch.resourcesPath, "/fonts/").concat(this._fontPath);
-        this._font = sketch_js_1.Sketch.p5.loadFont(fontPath, function (font) {
+        var fontPath = "".concat(Sketch.resourcesPath, "/fonts/").concat(this._fontPath);
+        this._font = Sketch.p5.loadFont(fontPath, function (font) {
             _this._font = font;
         }, function (err) {
             console.error("Failed to load font at '".concat(fontPath, "'.\n").concat(err));
@@ -47,9 +41,9 @@ var Font = /** @class */ (function () {
      * @returns {{x: number, y: number, w: number, h: number}}
      */
     Font.prototype.textBounds = function (text, x, y, fontSize) {
-        sketch_js_1.Sketch.graphicsUI.textFont(this.font, fontSize);
-        sketch_js_1.Sketch.graphicsUI.textAlign(sketch_js_1.Sketch.p5.LEFT, sketch_js_1.Sketch.p5.TOP);
-        var bounds = sketch_js_1.Sketch.font.font.textBounds(text, x, y, fontSize);
+        Sketch.graphicsUI.textFont(this.font, fontSize);
+        Sketch.graphicsUI.textAlign(Sketch.p5.LEFT, Sketch.p5.TOP);
+        var bounds = Sketch.font.font.textBounds(text, x, y, fontSize);
         // Don't ask why this is here, for some reason the p5 function textBounds does not work :O
         bounds.w += fontSize * 0.25;
         bounds.h += fontSize * 0.33;
@@ -68,4 +62,4 @@ var Font = /** @class */ (function () {
     });
     return Font;
 }());
-exports.Font = Font;
+export { Font };
