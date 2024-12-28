@@ -4,3 +4,4 @@ template/
 docs/
 .git/
 .env
+.gitignore
