@@ -14,9 +14,8 @@
     "build": "tsc"
   },
   "exports": {
-    "./core": "./dist/core/index.js",
-    "./utils": "./dist/utils/index.js",
-    ".": "./dist/core/index.js"
+    "./core": "./src/core/index.js",
+    "./utils": "./src/utils/index.js"
   },
   "type": "module",
   "dependencies": {
