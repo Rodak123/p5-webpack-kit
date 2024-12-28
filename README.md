@@ -3,6 +3,9 @@
 ## Disclaimer
 This library is an independent enhancement for p5.js. It is not officially affiliated with or endorsed by the p5.js project.
 
+## Disclaimer
+This reference is still not finished
+
 ## Why?
 
 I enjoy developing projects using p5.js, but the larger the project the harder it is to keep organized. One solution is to write different code in different scripts. However that requires to include every script inside the index HTML file, in the correct order. This quickly becomes very tideous and hard to read.
@@ -18,7 +21,7 @@ Of course this comes at the cost of needing to compile and build the project eac
 ## Table of Contents
 - [Installation](#installation)
 - [Project Template](https://github.com/Rodak123/p5-webpack-kit-template)
-- [API Reference](docs/API.md)
+- [API Reference](docs/api/README.md)
 - [Changelog](docs/CHANGELOG.md)
 - [License](docs/LICENSE.md)
 

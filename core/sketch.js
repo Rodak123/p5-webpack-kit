@@ -362,6 +362,19 @@ class Sketch {
     _resizeParameters = null;
 
     /**
+     * @type {(()=>void)[]}
+     */
+    _setupListeners = [];
+    /**
+     * @type {(()=>void)[]}
+     */
+    _updateListeners = [];
+    /**
+     * @type {(()=>void)[]}
+     */
+    _drawListeners = [];
+
+    /**
      * Sketch settings:
      * @param {number} width Width of the canvas
      * @param {number} height Height of the canvas
@@ -485,7 +498,7 @@ class Sketch {
 
         this._isAfterSetup = true;
 
-        this.setup?.call(this);
+        this._setupListeners.forEach((listener) => listener?.call(this));
 
         Sketch._dumpSetupEvents().forEach((setupEvent) => setupEvent?.call());
     }
@@ -497,7 +510,7 @@ class Sketch {
     _draw() {
         Time.update(this.p5);
 
-        this.update?.call(this);
+        this._updateListeners.forEach((listener) => listener?.call(this));
 
         if (this._p5.frameCount > 1) {
             this._graphics.pop();
@@ -517,7 +530,7 @@ class Sketch {
 
         if (this._isHidden) return;
 
-        this.draw?.call(this);
+        this._drawListeners.forEach((listener) => listener?.call(this));
 
         this.drawSettings.autoClearCanvas && this.p5.clear();
 
@@ -543,22 +556,28 @@ class Sketch {
     }
 
     /**
-     * Gets called before draw
-     * @returns {void}
+     * Gets called after canvas and graphics are created and before setupEvents are executed.
+     * @param {()=>void} value 
      */
-    update() { }
+    set setup(value) {
+        this._setupListeners.push(value);
+    }
 
     /**
-     * Gets called after canvas and graphics are created and before setupEvents are executed.
-     * @returns {void}
+     * Gets called before draw
+     * @param {()=>void} value 
      */
-    setup() { }
+    set update(value) {
+        this._updateListeners.push(value);
+    }
 
     /**
      * Gets called each frame.
-     * @returns {void}
+     * @param {()=>void} value 
      */
-    draw() { }
+    set draw(value) {
+        this._drawListeners.push(value);
+    }
 
     /**
      * Hides the canvas, and pauses time
